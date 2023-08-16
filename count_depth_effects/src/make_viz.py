@@ -40,8 +40,9 @@ def plot_3D_matrix(matrix_3D, colorization):
     ax = fig.add_subplot(111, projection='3d')
 
     # Extract X, Y, Z coordinates
-    X, Y, Z = matrix_3D[:, 0].numpy(
-    ), matrix_3D[:, 1].numpy(), matrix_3D[:, 2].numpy()
+    X, Y, Z = matrix_3D[:, 0].detach().numpy(
+    ), matrix_3D[:, 1].detach().numpy(
+    ), matrix_3D[:, 2].detach().numpy()
 
     # Check if colorization is categorical or continuous
     if all(isinstance(item, str) for item in colorization):

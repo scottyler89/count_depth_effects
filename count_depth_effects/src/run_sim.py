@@ -6,11 +6,11 @@ from count_split.count_split import multi_split
 from pyminer_norm.downsample import new_rewrite_get_transcript_vect as ds
 from pyminer_norm.downsample import downsample_mat
 from sklearn.metrics.pairwise import euclidean_distances as euc
-from anticor_features.anticor_stats import no_p_spear
+#from anticor_features.anticor_stats import no_p_spear
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
-from dclustval.cluster import do_cluster_validation
-from anticor_features.anticor_features import get_anti_cor_genes
+#from dclustval.cluster import do_cluster_validation
+#from anticor_features.anticor_features import get_anti_cor_genes
 
 def generate_dataset(n_group_specific_genes = 500,
                      n_groups = 2,

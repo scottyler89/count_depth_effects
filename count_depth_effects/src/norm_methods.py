@@ -76,13 +76,15 @@ def norm_sqrt(mtx):
 
 NORM = {
     "raw": norm_raw,
+    "sc_transform": sctransform_vst,
+    "rle": rle_norm,
     "pf": norm_pf,
     "log": norm_log,
     "pf_log": norm_pf_log,
     "pf_log_pf": norm_pf_log_pf,
     "cpm_log": norm_cpm_log,
     "cp10k_log": norm_cp10k_log,
-    "sqrt": norm_sqrt,
+    "sqrt": norm_sqrt
 }
 
 
