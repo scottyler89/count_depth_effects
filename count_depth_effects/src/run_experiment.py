@@ -1,5 +1,5 @@
-from .run_sim import *
-from .norm_methods import *
+from count_depth_effects.src.run_sim import *
+from count_depth_effects.src.norm_methods import *
 from make_viz import optimize_3D_matrix
 from sklearn.metrics.pairwise import euclidean_distances as euc
 import numpy as np
