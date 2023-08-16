@@ -1,0 +1,6 @@
+bio-pyminer-norm
+numpy
+scipy
+scikit-learn
+torch
+pysctransform

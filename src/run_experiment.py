@@ -3,17 +3,15 @@ from .norm_methods import *
 from make_viz import optimize_3D_matrix
 from sklearn.metrics.pairwise import euclidean_distances as euc
 import numpy as np
+import torch
 
-def run_experiment(norm_method_names, norm_method_funcs):
+def run_experiment(norm_methods):
     # Generate the data matrix as per the original code
-    # TODO...
-
-    # Create a list of normalization methods
-    normalization_methods = [depth_norm, tenk_norm]
+    X, Xdepth, depth_vect = generate_dataset()
 
     # Benchmark different normalization methods
     results = {}
-    for norm_method in normalization_methods:
+    for norm_name, norm_method in norm_methods.items():
         normalized_X = norm_method(X)  # Assuming X is the original data matrix
 
         # Compute the input distance matrix
@@ -23,11 +21,13 @@ def run_experiment(norm_method_names, norm_method_funcs):
         optimized_3D_matrix = optimize_3D_matrix(depth_vect, input_distance_matrix)
 
         # Store the results
-        results[norm_method.__name__] = optimized_3D_matrix
+        results[norm_name] = optimized_3D_matrix
 
     # Here you can add code to analyze, visualize, or save the results
     return results
 
 if __name__ == "__main__":
-    run_experiment()
+    np.random.seed(123456)
+    torch.seed
+    run_experiment(NORM)
 
