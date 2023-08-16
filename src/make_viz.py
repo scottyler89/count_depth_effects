@@ -1,3 +1,5 @@
+import numpy as np
+import matplotlib.pyplot as plt
 import torch
 from torch.nn.functional import cosine_similarity
 
@@ -33,3 +35,36 @@ def optimize_3D_matrix(depth_vect, input_distance_matrix, epochs=1000, lr=0.01):
     return torch.stack([X, Y, Z], dim=-1)
 
 
+def plot_3D_matrix(matrix_3D, colorization):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Extract X, Y, Z coordinates
+    X, Y, Z = matrix_3D[:, 0].numpy(
+    ), matrix_3D[:, 1].numpy(), matrix_3D[:, 2].numpy()
+
+    # Check if colorization is categorical or continuous
+    if all(isinstance(item, str) for item in colorization):
+        # Categorical labels
+        unique_labels = list(set(colorization))
+        color_map = plt.get_cmap('tab10', len(unique_labels))
+        colors = [color_map(unique_labels.index(label))
+                  for label in colorization]
+    else:
+        # Continuous values (normalized to 0-1)
+        color_map = plt.get_cmap('inferno')
+        normalized_values = (colorization - np.min(colorization)) / \
+            (np.max(colorization) - np.min(colorization))
+        colors = [color_map(value) for value in normalized_values]
+
+    # Plot the points
+    ax.scatter(X, Y, Z, c=colors, cmap='inferno')
+
+    # Add labels and title if needed
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    plt.title('3D Visualization')
+
+    # Show the plot
+    plt.show()
