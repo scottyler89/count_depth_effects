@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import euclidean_distances as euc
 import numpy as np
 import torch
 import scipy
+import os
 
 def run_experiment(norm_methods):
     # Generate the data matrix as per the original code
@@ -13,10 +14,13 @@ def run_experiment(norm_methods):
     results = {}
 
     ## first get the ground truth distances
-    optimized_3D_matrix = optimize_3D_matrix(
+    norm_name = "ground_truth"
+    optimized_3D_matrix, temp_loss = optimize_3D_matrix(
                torch.tensor(depth_vect), torch.tensor(euc(X)))
     results["ground_truth"]=optimized_3D_matrix
-    plot_3D_matrix(optimized_3D_matrix, np.log(depth_vect))
+    plot_3D_matrix(optimized_3D_matrix, np.log(depth_vect),
+                   title=f"{norm_name}\ncosine dist: {temp_loss}",
+                   out_file=os.path.join("assets", "3D", norm_name)+".gif")
 
     print("runing the normalizations & projections")
     # Benchmark different normalization methods
@@ -34,11 +38,15 @@ def run_experiment(norm_methods):
 
         print("\t\tgetting 3D coordinates")
         # Optimize the 3D matrix using the gradient descent method
-        optimized_3D_matrix = optimize_3D_matrix(torch.tensor(depth_vect), 
+        optimized_3D_matrix, temp_loss = optimize_3D_matrix(torch.tensor(depth_vect), 
                                                  torch.tensor(input_distance),
                                                  X=results["ground_truth"][:,0].clone().detach().numpy(),# Initialize to the ground truth distance X/Y
                                                  Y=results["ground_truth"][:,1].clone().detach().numpy())
-        plot_3D_matrix(optimized_3D_matrix, np.log(depth_vect))
+        plot_3D_matrix(optimized_3D_matrix,
+                       np.log(depth_vect),
+                       title=f"{norm_name}\ncosine dist: {temp_loss}",
+                       out_file=os.path.join("assets", "3D", norm_name)+".gif")
+
 
         # Store the results
         results[norm_name] = optimized_3D_matrix

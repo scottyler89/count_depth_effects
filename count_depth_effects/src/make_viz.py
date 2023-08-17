@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import torch
 from torch.nn.functional import cosine_similarity
@@ -57,10 +58,10 @@ def optimize_3D_matrix(depth_vect, input_distance_matrix, epochs=1000, lr=0.01, 
         optimizer.zero_grad()
 
     # Return the optimized 3D matrix
-    return torch.stack([X, Y, Z], dim=-1)
+    return torch.stack([X, Y, Z], dim=-1), loss.item()
 
 
-def plot_3D_matrix(matrix_3D, colorization):
+def plot_3D_matrix(matrix_3D, colorization, title="3D projection", out_file=""):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
@@ -84,13 +85,27 @@ def plot_3D_matrix(matrix_3D, colorization):
         colors = [color_map(value) for value in normalized_values]
 
     # Plot the points
-    ax.scatter(X, Y, Z, c=colors, cmap='inferno')
+    scatter = ax.scatter(X, Y, Z, c=colors, cmap='inferno')
 
     # Add labels and title if needed
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
-    plt.title('3D Visualization')
+    plt.title(title)
 
-    # Show the plot
-    plt.show()
+    # Function to update the angle of the plot
+    def update(frame):
+        ax.view_init(elev=10, azim=frame)
+        return scatter,
+
+    # Create animation
+    anim = FuncAnimation(fig, update, frames=np.arange(
+        0, 360, 1), interval=100, blit=True)
+
+    # Save or show the plot
+    if out_file:
+        anim.save(out_file, writer='imagemagick')
+    else:
+        plt.show()
+
+
