@@ -47,5 +47,16 @@ Log(Counts per 10k):
 Then Just run the experiment:
 `python3 count_depth_effects/src/run_experiment.py`
 
+### Normalization methods
+The normalization methods implemented here were from here, so if you cite this work, pleas also cite that:
+-  Depth normalization for single-cell genomics count data
+A. Sina Booeshaghi, Ingileif B. Hallgrímsdóttir, Ángel Gálvez-Merchán, Lior Pachter
+bioRxiv 2022.05.06.490859; doi: https://doi.org/10.1101/2022.05.06.490859 
+
+Relative Log Expression was also used, as implemented here:
+- https://github.com/scottyler89/st_rle
+But that repository was just a pythonic implementation of the original in DESeq, here:
+- Anders S, Huber W. Differential expression analysis for sequence count data. Genome Biol. 2010;11(10):R106. doi: 10.1186/gb-2010-11-10-r106. Epub 2010 Oct 27. PMID: 20979621; PMCID: PMC3218662.
+
 ### Detailed Methods
 First, we generate the 
