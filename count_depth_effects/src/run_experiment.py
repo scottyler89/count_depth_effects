@@ -34,7 +34,10 @@ def run_experiment(norm_methods):
 
         print("\t\tgetting 3D coordinates")
         # Optimize the 3D matrix using the gradient descent method
-        optimized_3D_matrix = optimize_3D_matrix(torch.tensor(depth_vect), torch.tensor(input_distance))
+        optimized_3D_matrix = optimize_3D_matrix(torch.tensor(depth_vect), 
+                                                 torch.tensor(input_distance),
+                                                 X=results["ground_truth"][:,0].clone().detach().numpy(),# Initialize to the ground truth distance X/Y
+                                                 Y=results["ground_truth"][:,1].clone().detach().numpy())
         plot_3D_matrix(optimized_3D_matrix, np.log(depth_vect))
 
         # Store the results

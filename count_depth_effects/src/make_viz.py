@@ -28,12 +28,19 @@ def loss_function(X, Y, Z, input_distance_matrix, eps=1e-8):
     return -cosine_sim
     
 
-def optimize_3D_matrix(depth_vect, input_distance_matrix, epochs=1000, lr=0.01):
+def optimize_3D_matrix(depth_vect, input_distance_matrix, epochs=1000, lr=0.01, X=None, Y=None):
     n_cells = len(depth_vect)
     #X, Y, Z = initialize_3D_matrix(depth_vect, n_cells)
     Z = min_max_scaling(torch.log(torch.tensor(depth_vect, dtype=torch.float32)))
-    X = torch.rand(n_cells, requires_grad=True)
-    Y = torch.rand(n_cells, requires_grad=True)
+    if X is None:
+        X = torch.rand(n_cells, requires_grad=True)
+    else:
+        X = torch.tensor(X, requires_grad=True)
+    if Y is None:
+        Y = torch.rand(n_cells, requires_grad=True)
+    else:
+        Y = torch.tensor(Y, requires_grad=True)
+    
     optimizer = torch.optim.Adam([X, Y], lr=lr)
 
     for epoch in range(epochs):
