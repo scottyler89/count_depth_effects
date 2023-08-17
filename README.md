@@ -2,25 +2,25 @@
 
 ## Results
 Ground truth: (before log-normal Poisson sampling process)
-![Ground Truth](assets/ground_truth.gif)
+![Ground Truth](assets/3D/ground_truth.gif)
 Raw Counts: (After log-normal Poisson sampling process)
-![raw counts](assets/raw.gif)
+![raw counts](assets/3D/raw.gif)
 Log transformed:
-![log](assets/.gif)
+![log](assets/3D/.gif)
 Relative Log Expression (RLE): 
-![rle](assets/rle.gif)
+![rle](assets/3D/rle.gif)
 PF:
-![pf](assets/pf.gif)
+![pf](assets/3D/pf.gif)
 PF-log:
-![pf_log](assets/pf_log.gif)
+![pf_log](assets/3D/pf_log.gif)
 PF-log-PF:
-![pf_log_pf](assets/pf_log_pf.gif)
+![pf_log_pf](assets/3D/pf_log_pf.gif)
 Sqrt:
-![sqrt](assets/sqrt.gif)
+![sqrt](assets/3D/sqrt.gif)
 Log(Counts per Million):
-![cpm_log](assets/cpm_log.gif)
+![cpm_log](assets/3D/cpm_log.gif)
 Log(Counts per 10k):
-![cp10k_log](assets/cp10k_log.gif)
+![cp10k_log](assets/3D/cp10k_log.gif)
 
 
 
