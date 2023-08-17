@@ -4,30 +4,48 @@ import torch
 from torch.nn.functional import cosine_similarity
 
 
+def min_max_scaling(tensor):
+    min_val = torch.min(tensor)
+    max_val = torch.max(tensor)
+    scaled_tensor = (tensor - min_val) / (max_val - min_val)
+    return scaled_tensor
+
+
 def initialize_3D_matrix(depth_vect, n_cells):
-    Z = torch.log(torch.tensor(depth_vect, dtype=torch.float32))
+    Z = min_max_scaling(torch.log(torch.tensor(depth_vect, dtype=torch.float32)))
     X = torch.rand(n_cells, requires_grad=True)
     Y = torch.rand(n_cells, requires_grad=True)
     return X, Y, Z
 
 
-def loss_function(X, Y, Z, input_distance_matrix):
+def loss_function(X, Y, Z, input_distance_matrix, eps=1e-8):
     # Compute 3D distances
-    distances_3D = torch.sqrt((X[:, None] - X[None, :]) ** 2 + (Y[:, None] - Y[None, :]) ** 2 + (Z[:, None] - Z[None, :]) ** 2)
+    distances_3D = torch.sqrt((X[:, None] - X[None, :]) ** 2 + (Y[:, None] - Y[None, :]) ** 2 + (Z[:, None] - Z[None, :]) ** 2 + eps)
     # Compute cosine similarity between 3D distances and input distances
-    cosine_sim = cosine_similarity(distances_3D.flatten(), input_distance_matrix.flatten(), dim=0)
-    # Return negative cosine similarity as loss
+    cosine_sim = cosine_similarity(distances_3D.flatten()+eps,
+                                   input_distance_matrix.flatten()+eps, dim=0)
+    ## Return negative cosine similarity as loss
     return -cosine_sim
-
+    
 
 def optimize_3D_matrix(depth_vect, input_distance_matrix, epochs=1000, lr=0.01):
     n_cells = len(depth_vect)
-    X, Y, Z = initialize_3D_matrix(depth_vect, n_cells)
+    #X, Y, Z = initialize_3D_matrix(depth_vect, n_cells)
+    Z = min_max_scaling(torch.log(torch.tensor(depth_vect, dtype=torch.float32)))
+    X = torch.rand(n_cells, requires_grad=True)
+    Y = torch.rand(n_cells, requires_grad=True)
     optimizer = torch.optim.Adam([X, Y], lr=lr)
 
     for epoch in range(epochs):
         loss = loss_function(X, Y, Z, input_distance_matrix)
+        if epoch % 100 ==0:
+            print("\t\t\t",loss)
+        #print("Gradient of X:", X.grad)
+        #print("Gradient of Y:", Y.grad)
         loss.backward()
+        #print("Gradient of X:", X.grad)
+        #print("Gradient of Y:", Y.grad)
+        #torch.nn.utils.clip_grad_value_([X, Y], clip_value=1.0)
         optimizer.step()
         optimizer.zero_grad()
 

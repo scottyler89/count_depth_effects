@@ -60,7 +60,8 @@ def generate_dataset(n_group_specific_genes = 500,
         X[cell_idx,:]=deepcopy(temp_transcript_vect)
 
     # Now make them have a log normal distribution of total counts (centered around 2500 counts per cell)
-    depth_vect = np.random.lognormal(np.log(2500),1, size=n_cells)
+    #depth_vect = np.random.lognormal(np.log(2500),1, size=n_cells)
+    depth_vect = np.random.uniform(size=n_cells)*5000
     Xdepth=deepcopy(X)
     for cell_idx in range(n_cells):
         # downsample each cell to its given depth

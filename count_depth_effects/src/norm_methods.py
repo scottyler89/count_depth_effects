@@ -1,5 +1,5 @@
 import numpy as np
-from pysctransform import vst
+#from pysctransform import vst
 from st_rle.rle import do_depth_normalization
 
 
@@ -76,7 +76,7 @@ def norm_sqrt(mtx):
 
 NORM = {
     "raw": norm_raw,
-    "sc_transform": sctransform_vst,
+    ##"sc_transform": sctransform_vst,
     "rle": rle_norm,
     "pf": norm_pf,
     "log": norm_log,

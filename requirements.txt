@@ -3,5 +3,5 @@ numpy
 scipy
 scikit-learn
 torch
-pysctransform
+#pysctransform
 count_split
