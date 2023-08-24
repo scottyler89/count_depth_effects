@@ -5,7 +5,7 @@ Here are the simulated cells in similarity space, as deteremined by a gradient d
 
 In this specific case, because we know the ground truth is two blobs, we aren't very worried about "cutting" links in the topology, as would be necessary where the meaningful dimensionality is greater than two.
 
-Note that they annotated cosine distance bottoms out at -1 & the closer the value is to -1, the better the fit was in recapitulating the distances in the ambient space. These are also colorized by the log depth for an added visual aid, even though this is also captured on the Z axis.
+Note that they annotated cosine similarity maxes out at 1 & the closer the value is to 1, the better the fit was in recapitulating the distances in the ambient space (after normalization). Then we also show the cosine similarity to the ground-truth ambient distances. These are also colorized by the log depth for an added visual aid, even though this is also captured on the Z axis.
 
 Ground truth: (before log-normal Poisson sampling process)
 ![Ground Truth](assets/3D/ground_truth.gif)

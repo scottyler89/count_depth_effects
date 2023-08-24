@@ -5,6 +5,15 @@ import torch
 from torch.nn.functional import cosine_similarity
 
 
+def standardize(tensor):
+    if type(tensor)==torch.tensor:
+        mean = torch.mean(tensor)
+        std = torch.std(tensor)
+    else:
+        mean = np.mean(tensor)
+        std = np.std(tensor)
+    return (tensor - mean) / std
+
 def min_max_scaling(tensor):
     min_val = torch.min(tensor)
     max_val = torch.max(tensor)
@@ -23,8 +32,8 @@ def loss_function(X, Y, Z, input_distance_matrix, eps=1e-8):
     # Compute 3D distances
     distances_3D = torch.sqrt((X[:, None] - X[None, :]) ** 2 + (Y[:, None] - Y[None, :]) ** 2 + (Z[:, None] - Z[None, :]) ** 2 + eps)
     # Compute cosine similarity between 3D distances and input distances
-    cosine_sim = cosine_similarity(distances_3D.flatten()+eps,
-                                   input_distance_matrix.flatten()+eps, dim=0)
+    cosine_sim = cosine_similarity(distances_3D.flatten(),
+                                   input_distance_matrix.flatten() + eps, dim=0)
     ## Return negative cosine similarity as loss
     return -cosine_sim
     
@@ -56,7 +65,6 @@ def optimize_3D_matrix(depth_vect, input_distance_matrix, epochs=1000, lr=0.01, 
         #torch.nn.utils.clip_grad_value_([X, Y], clip_value=1.0)
         optimizer.step()
         optimizer.zero_grad()
-
     # Return the optimized 3D matrix
     return torch.stack([X, Y, Z], dim=-1), loss.item()
 
