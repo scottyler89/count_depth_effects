@@ -7,34 +7,54 @@ In this specific case, because we know the ground truth is two blobs, we aren't 
 
 Note that they annotated cosine similarity maxes out at 1 & the closer the value is to 1, the better the fit was in recapitulating the distances in the ambient space (after normalization). Then we also show the cosine similarity to the ground-truth ambient distances. These are also colorized by the log depth for an added visual aid, even though this is also captured on the Z axis.
 
+
 Ground truth: (before log-normal Poisson sampling process)
+
 ![Ground Truth](assets/3D/ground_truth.gif)
 
+
 Raw Counts: (After log-normal Poisson sampling process)
+
 ![raw counts](assets/3D/raw.gif)
 
+
 Log transformed:
+
 ![log](assets/3D/log.gif)
 
+
 Relative Log Expression (RLE): 
+
 ![rle](assets/3D/rle.gif)
 
+
 PF:
+
 ![pf](assets/3D/pf.gif)
 
+
 PF-log:
+
 ![pf_log](assets/3D/pf_log.gif)
 
+
 PF-log-PF:
+
 ![pf_log_pf](assets/3D/pf_log_pf.gif)
 
+
 Sqrt:
+
 ![sqrt](assets/3D/sqrt.gif)
 
+
 Log(Counts per Million):
+
 ![cpm_log](assets/3D/cpm_log.gif)
 
+
 Log(Counts per 10k):
+
 ![cp10k_log](assets/3D/cp10k_log.gif)
 
 
