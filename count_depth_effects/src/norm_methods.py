@@ -24,6 +24,38 @@ def sctransform_vst(in_mat):
                     exclude_poisson=True
                     )
 
+from warnings import warn
+from scipy.sparse import issparse
+def pearson_residuals(X, theta=100., clip=None, check_values: bool = False, copy: bool = False):
+    # Taken from: https://github.com/scverse/scanpy/blob/master/scanpy/experimental/pp/_normalization.py#L66-L143
+    # on 01/02/2024
+    X = X.copy() if copy else X
+    # prepare clipping
+    if clip is None:
+        n = X.shape[0]
+        clip = np.sqrt(n)
+    if clip < 0:
+        raise ValueError("Pearson residuals require `clip>=0` or `clip=None`.")
+    if check_values and not check_nonnegative_integers(X):
+        warn(
+            "`normalize_pearson_residuals()` expects raw count data, but non-integers were found.",
+            UserWarning,
+        )
+    if issparse(X):
+        sums_genes = np.sum(X, axis=0)
+        sums_cells = np.sum(X, axis=1)
+        sum_total = np.sum(sums_genes).squeeze()
+    else:
+        sums_genes = np.sum(X, axis=0, keepdims=True)
+        sums_cells = np.sum(X, axis=1, keepdims=True)
+        sum_total = np.sum(sums_genes)
+    mu = np.array(sums_cells @ sums_genes / sum_total)
+    diff = np.array(X - mu)
+    residuals = diff / np.sqrt(mu + mu**2 / theta)=
+    # clip
+    residuals = np.clip(residuals, a_min=-clip, a_max=clip)
+    return residuals
+
 
 def rle_norm(in_mat):
     return(do_depth_normalization(in_mat))
@@ -76,8 +108,9 @@ def norm_sqrt(mtx):
 
 NORM = {
     "raw": norm_raw,
-    ##"sc_transform": sctransform_vst,
+    ##"sc_transform": sctransform_vst, #This code wasn't working
     "rle": rle_norm,
+    "pear": pearson_residuals,
     "pf": norm_pf,
     "log": norm_log,
     "pf_log": norm_pf_log,
