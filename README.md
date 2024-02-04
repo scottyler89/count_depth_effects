@@ -27,6 +27,8 @@ Relative Log Expression (RLE):
 
 ![rle](assets/3D/rle.gif)
 
+Pearson Residuals:
+![pear](assets/3D/pear.gif)
 
 PF:
 
